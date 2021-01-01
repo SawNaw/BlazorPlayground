@@ -3,21 +3,21 @@
 @using BlazorPlayground.Data
 
 <h3>Todo List</h3>
-Total items: @todos.Count()
+Total items: @allTodoItems.Count()
 <br />
-Done: @todos.Count(x => x.IsDone) out of @todos.Count()
+Done: @allTodoItems.Count(x => x.IsDone) out of @allTodoItems.Count()
 <br />
-Not Done: @todos.Count(x => !x.IsDone) out of @todos.Count()
+Not Done: @allTodoItems.Count(x => !x.IsDone) out of @allTodoItems.Count()
 <br />
 
 <ul>
-    @foreach (var todo in todos)
+    @foreach (var todo in allTodoItems)
     {
         <li>
             <input type="checkbox" @bind="todo.IsDone" />
             <input @bind="todo.Title" />
             <input type="datetime-local" @bind="todo.DateAdded" />
-            <InputFile OnChange="@OnFileSelected" @bind-value="todo.AssociatedFiles" multiple  />
+            <InputFile OnChange="((InputFileChangeEventArgs args) => OnFileSelected(args, todo))" multiple />
         </li>
     }
 </ul>
@@ -27,19 +27,21 @@ Not Done: @todos.Count(x => !x.IsDone) out of @todos.Count()
 <button @onclick="AddTodo">Add Todo Item</button>
 
 @code {
-    private IList<TodoItem> todos = new List<TodoItem>();
+    private IList<TodoItem> allTodoItems = new List<TodoItem>();
     private string newTodo;
 
     private void AddTodo()
     {
         if (!String.IsNullOrWhiteSpace(newTodo))
         {
-            todos.Add(new TodoItem(newTodo));
+            allTodoItems.Add(new TodoItem(newTodo));
             newTodo = "";
         }
     }
 
-    private void OnFileSelected(InputFileChangeEventArgs e)
+    private void OnFileSelected(InputFileChangeEventArgs e, TodoItem todo)
     {
+        todo.AssociatedFiles = e.GetMultipleFiles();
+        this.StateHasChanged();
     }
 }
