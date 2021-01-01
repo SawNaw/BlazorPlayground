@@ -17,6 +17,7 @@ Not Done: @todos.Count(x => !x.IsDone) out of @todos.Count()
             <input type="checkbox" @bind="todo.IsDone" />
             <input @bind="todo.Title" />
             <input type="datetime-local" @bind="todo.DateAdded" />
+            <InputFile OnChange="@OnFileSelected" @bind-value="todo.AssociatedFiles" multiple  />
         </li>
     }
 </ul>
@@ -38,8 +39,7 @@ Not Done: @todos.Count(x => !x.IsDone) out of @todos.Count()
         }
     }
 
-    private void OnFileSelected(InputFile file)
+    private void OnFileSelected(InputFileChangeEventArgs e)
     {
-
     }
 }
