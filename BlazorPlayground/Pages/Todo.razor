@@ -1,0 +1,45 @@
+﻿@page "/todo"
+
+@using BlazorPlayground.Data
+
+<h3>Todo List</h3>
+Total items: @todos.Count()
+<br />
+Done: @todos.Count(x => x.IsDone) out of @todos.Count()
+<br />
+Not Done: @todos.Count(x => !x.IsDone) out of @todos.Count()
+<br />
+
+<ul>
+    @foreach (var todo in todos)
+    {
+        <li>
+            <input type="checkbox" @bind="todo.IsDone" />
+            <input @bind="todo.Title" />
+            <input type="datetime-local" @bind="todo.DateAdded" />
+        </li>
+    }
+</ul>
+
+
+<input placeholder="Write something to do..." @bind="newTodo" />
+<button @onclick="AddTodo">Add Todo Item</button>
+
+@code {
+    private IList<TodoItem> todos = new List<TodoItem>();
+    private string newTodo;
+
+    private void AddTodo()
+    {
+        if (!String.IsNullOrWhiteSpace(newTodo))
+        {
+            todos.Add(new TodoItem(newTodo));
+            newTodo = "";
+        }
+    }
+
+    private void OnFileSelected(InputFile file)
+    {
+
+    }
+}
