@@ -1,0 +1,20 @@
+﻿@page "/InputAnimalCaller"
+
+<ul>
+    @foreach (var animal in animals)
+    {
+        <li>@animal</li>
+    }
+</ul>
+
+<InputAnimal OnSubmit="AddToList" />
+
+@code
+{
+    private IList<string> animals = new List<string>();
+
+    private void AddToList(string animal)
+    {
+        animals.Add(animal);
+    }
+}

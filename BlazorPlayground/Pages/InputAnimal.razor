@@ -1,0 +1,41 @@
+﻿<p>
+    <label for="myAnimal">Type your favorite animals, one by one</label>
+    <input type="text" id="myAnimal" name="myAnimal" @bind="animal" />
+</p>
+<p>
+    <button @onclick="Submit">Submit</button>
+</p>
+
+@code {
+    // Define a variable which is bound to the input text field
+    // When the user type text into the input field, the animal
+    // variable is populated with the typed text.
+    private string animal;
+
+    // OnSubmit is a parameter property of type EventCallback that
+    // stores a reference to a method defined in the component that
+    // uses the current component. When the user clicks on the
+    // button above, its click event is raised, and we invoke the
+    // OnSubmit 'delegate' from the its (the button) Submit event
+    // handler
+    [Parameter]
+    public EventCallback<string> OnSubmit { get; set; }
+
+    // Click even handler raised when the use hit the "Submit"
+    // button
+    private async Task Submit()
+    {
+        // Check if the OnSubmit property has a delegate. Note:
+        // EventCallback is not a delegate, but a C# struct.
+        // The EventCallback struct produces the appropriate
+        // delegate for the assigned method. It was especially
+        // designed for Blazor. Before its creation we used the
+        // C# Action and Func, etc. delegates
+        if (OnSubmit.HasDelegate)
+        {
+            // Invoke the 'delegate'; that is call the AddToList
+            // method, passing it a string value
+            await OnSubmit.InvokeAsync(animal);
+        }
+    }
+}

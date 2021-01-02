@@ -1,0 +1,21 @@
+﻿@page "/Form"
+
+@using BlazorPlayground.Data
+
+<h3>Form</h3>
+<!-- -->
+<EditForm Model="formModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText id="name" @bind-Value="formModel.Name" />
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private FormModel formModel = new FormModel();
+
+    private void HandleValidSubmit()
+    {
+
+    }
+}
